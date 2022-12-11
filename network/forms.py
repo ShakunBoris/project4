@@ -17,5 +17,5 @@ class PostForm(ModelForm):
             },
         }
         widgets = {
-            # 'text': TextInput(attrs={'rows':44, 'cols':70}),
+            'text': Textarea(attrs={'rows':3, 'cols':50}),
         }
