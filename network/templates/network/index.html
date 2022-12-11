@@ -1,5 +1,12 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
-    TODO
+<div id='container'>
+    <form method='POST' id='new-post-form'> 
+        <h3> New Post </h3>
+        {{ form }}
+        {% csrf_token %}
+        <input type="submit" />
+    </form>
+</div>
 {% endblock %}
