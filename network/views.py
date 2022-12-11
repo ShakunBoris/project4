@@ -5,13 +5,31 @@ from django.shortcuts import render
 from django.urls import reverse
 from network.forms import *
 
-from .models import User
+from .models import *
 
 def index(request):
     form = PostForm()
     return render(request, "network/index.html", {
         'form': form,
     })
+    
+def post(request):
+    ''' METHOD DOESN'T WORK IDC
+    form = PostForm(request.POST, initial={'author': request.user})
+    form.save()
+    ''' 
+    # THIS ONE IS FIRST ON DOCUMENTATION
+    new_post = Post(author=request.user)
+    form = PostForm(request.POST, instance=new_post)
+    if form.is_valid():
+        form.save()
+    ''' method 3 WORKS !!!!! But more code
+    # form = PostForm(request.POST)
+    # new_post = form.save(commit=False)
+    # new_post.author = request.user
+    # new_post.save()
+    '''
+    return HttpResponseRedirect(reverse("index"))
 
 
 def login_view(request):

@@ -11,4 +11,4 @@ class Post(models.Model):
     text = models.CharField(max_length=140)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    liked_by = models.ManyToManyField(User, related_name='liked_posts')
+    liked_by = models.ManyToManyField(User, blank=True, related_name='liked_posts')
