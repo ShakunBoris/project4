@@ -24,6 +24,26 @@
     padding: 4px;
 }
 
-/* #new-post-form > * {
-    width: 500px;
-} */
+.posts {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap:2rem;
+    border: 2px solid rgb(0, 0, 0);
+}
+
+.post {
+    background-color: whitesmoke;
+    padding: 1rem;
+    display: flex;
+    border: 2px dashed gray;
+    flex-wrap: wrap;
+    flex: 1;
+}
+
+.post ul {
+    list-style: none;
+}
+.post li {
+    word-break: break-all;
+}

@@ -8,9 +8,11 @@ from network.forms import *
 from .models import *
 
 def index(request):
+    posts = Post.objects.all()
     form = PostForm()
     return render(request, "network/index.html", {
         'form': form,
+        'posts': posts
     })
     
 def post(request):
