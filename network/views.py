@@ -21,6 +21,7 @@ def profile(request, profile):
     # print('user.is_following.all()', user.is_following.all())
     # print('user posts:', Post.objects.filter(author=user).order_by('-created_at'))
     user_info = {
+        'user_viewed': profile,
         'followed_by': user.followed_by.values_list('username', flat=True),
         'is_following': user.is_following.all(),
         'posts':  Post.objects.filter(author=user).order_by('-created_at')

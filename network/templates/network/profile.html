@@ -20,9 +20,19 @@
   </li>
 </article>
 <h2>Followed By: {{user_info.followed_by | length }}</h2>
-<h3> {% for follower in user_info.followed_by %} {{follower}} {%endfor%}</h3>
+<h3>{% for follower in user_info.followed_by %} {{follower}} {%endfor%}</h3>
 <h2>Follows: {{user_info.is_following | length }}</h2>
-<h3> {% for follows in user_info.is_following %} {{follows}} {%endfor%}</h3>
+<h3>{% for follows in user_info.is_following %} {{follows}} {%endfor%}</h3>
+{% if user.username != user_info.user_viewed %}
+<div id="follow-button-div">
+  active user: {{ user.username }}. People following this page:
+  {{user_info.followed_by}}
+  <button id="follow-button">
+    {% if user.username in user_info.followed_by.all %} Unfollow {% else %} Follow
+    {% endif %}
+  </button>
+</div>
+{%endif%}
 <div class="posts">
   {% for post in user_info.posts %}
   <div class="post">
@@ -37,3 +47,6 @@
   {% endfor %}
 </div>
 {%endblock%}
+{% block script %}
+<script src="{% static 'network/network.js' %}"></script>
+{% endblock %}
