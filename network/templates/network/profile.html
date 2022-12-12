@@ -1,0 +1,37 @@
+{% extends 'network/layout.html'%} {% load static %} {%block body%}
+<article>
+  <h2>PROFILE TODO</h2>
+  <p>
+    Profile Page: Clicking on a username should load that user's profile page.
+    This page should:
+  </p>
+  <li>
+    Display the number of followers the user has, as well as the number of
+    people that the user follows.
+  </li>
+  <li>
+    Display all of the posts for that user, in reverse chronological order.
+  </li>
+  <li>
+    For any other user who is signed in, this page should also display a
+    “Follow” or “Unfollow” button that will let the current user toggle whether
+    or not they are following this user's posts. Note that this only applies to
+    any “other” user: a user should not be able to follow themselves.
+  </li>
+</article>
+<h2>Followed By: {{user_info.followed_by | length }}</h2>
+<h2>Follows: {{user_info.is_following | length }}</h2>
+<div class="posts">
+  {% for post in user_info.posts %}
+  <div class="post">
+    <ul>
+      <li>Genius: {{post.author}}</li>
+      <li>Shitpost: {{post.text}}</li>
+      <li>Created at: {{post.created_at}}</li>
+      <li>Last update: {{post.updated_at}}</li>
+      <li>Likes: {{post.liked_by | length}}</li>
+    </ul>
+  </div>
+  {% endfor %}
+</div>
+{%endblock%}

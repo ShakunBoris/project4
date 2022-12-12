@@ -8,13 +8,27 @@ from network.forms import *
 from .models import *
 
 def index(request):
-    posts = Post.objects.all()
+    posts = Post.objects.all().order_by('-created_at')
     form = PostForm()
     return render(request, "network/index.html", {
         'form': form,
         'posts': posts
     })
-    
+
+def profile(request, profile):
+    user = User.objects.get(username=profile)
+    # print('user.followed_by.all()', user.followed_by.all())
+    # print('user.is_following.all()', user.is_following.all())
+    # print('user posts:', Post.objects.filter(author=user).order_by('-created_at'))
+    user_info = {
+        'followed_by': user.followed_by.all(),
+        'is_following': user.is_following.all(),
+        'posts':  Post.objects.filter(author=user).order_by('-created_at')
+    }
+    return render(request, 'network/profile.html', {
+        'user_info': user_info
+    })
+
 def post(request):
     ''' METHOD DOESN'T WORK IDC
     form = PostForm(request.POST, initial={'author': request.user})
