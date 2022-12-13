@@ -52,10 +52,7 @@ def profile(request, profile):
 
 def following(request):
     follows = request.user.is_following.all()
-    print(follows)
     posts = Post.objects.filter(author__in=follows).order_by('-created_at')
-    print(posts)
-    # posts = request.user.is_following()
     return render(request, 'network/following.html', {
         'posts': posts,
     })
