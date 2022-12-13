@@ -1,4 +1,5 @@
-{% extends 'network/layout.html'%} {% load static %} {%block body%}
+{% extends 'network/layout.html'%} {% load static %} 
+{%block body%}
 <article>
   <h2>PROFILE TODO</h2>
   <p>
@@ -33,7 +34,7 @@
 </div>
 {%endif%}
 <div class="posts">
-  {% for post in user_info.posts %}
+  {% for post in posts %}
   <div class="post">
     <ul>
       <li>Genius: {{post.author}}</li>
