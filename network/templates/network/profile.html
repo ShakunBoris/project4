@@ -28,8 +28,7 @@
   active user: {{ user.username }}. People following this page:
   {{user_info.followed_by}}
   <button id="follow-button" data-profile='{{ user_info.user_viewed }}'>
-    {% if user.username in user_info.followed_by.all %} Unfollow {% else %} Follow
-    {% endif %}
+    {% if user.username in user_info.followed_by.all %} Unfollow {% else %} Follow {% endif %}
   </button>
 </div>
 {%endif%}

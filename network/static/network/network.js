@@ -12,12 +12,12 @@ function folUnfol() {
             folUnfol: true,  
         })
     }).then(() => {
-    if (document.querySelector('#follow-button').innerHTML == 'Follow') {
-        document.querySelector('#follow-button').innerHTML = 'Unfollow'
+    if (document.querySelector('#follow-button').innerHTML.includes('Unfollow')) {
         console.log('REMOVING')
-    } else {
         document.querySelector('#follow-button').innerHTML = 'Follow'
+    } else {
         console.log('ADDING')
+        document.querySelector('#follow-button').innerHTML = 'Unfollow'
     }
     })
 }
