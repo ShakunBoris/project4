@@ -9,6 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from .models import *
 
+
 def index(request):
     posts = Post.objects.all().order_by('-created_at')
     form = PostForm()
@@ -17,9 +18,10 @@ def index(request):
         'posts': posts
     })
 
+
 @csrf_exempt
 def profile(request, profile):
-    if request.method == 'GET':    
+    if request.method == 'GET':
         user = User.objects.get(username=profile)
         # print('user.followed_by.all()', user.followed_by.all())
         # print('user.is_following.all()', user.is_following.all())
@@ -38,19 +40,32 @@ def profile(request, profile):
         data = json.loads(request.body)
         if data.get('folUnfol') is not None:
             if request.user not in User.objects.get(username=profile).followed_by.all():
-                User.objects.get(username=profile).followed_by.add(request.user)
-                print('ADDING!!!') 
+                User.objects.get(
+                    username=profile).followed_by.add(request.user)
+                print('ADDING!!!')
             else:
-                User.objects.get(username=profile).followed_by.remove(request.user)
+                User.objects.get(
+                    username=profile).followed_by.remove(request.user)
                 print('REMOVING!!!')
-        return HttpResponse('PUT METHOD VIEWS.PROFILE')
-    
+        return HttpResponse(status=204)
+
+
+def following(request):
+    follows = request.user.is_following.all()
+    print(follows)
+    posts = Post.objects.filter(author__in=follows).order_by('-created_at')
+    print(posts)
+    # posts = request.user.is_following()
+    return render(request, 'network/following.html', {
+        'posts': posts,
+    })
+
 
 def post(request):
     ''' METHOD DOESN'T WORK IDC
     form = PostForm(request.POST, initial={'author': request.user})
     form.save()
-    ''' 
+    '''
     # THIS ONE IS FIRST ON DOCUMENTATION
     new_post = Post(author=request.user)
     form = PostForm(request.POST, instance=new_post)

@@ -7,10 +7,12 @@ urlpatterns = [
     # pages
     path("", views.index, name="index"),
     path('user/<str:profile>', views.profile, name='profile'),
+    path('following', views.following, name='following'),
     # commands
     path("post", views.post, name="post"),
     # API
-    # path('user/<str:profile>', views.profile, name='profile') USE SAME FOR FETCH
+    # path('user/<str:profile>', views.profile, name='profile')
+    # USE SAME AS PROFILE BUT 'PUT FOR FETCH
     
     # service
     path("login", views.login_view, name="login"),

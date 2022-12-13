@@ -1,0 +1,29 @@
+{% extends 'network/layout.html' %} {%load static %} {% block body %}
+<p>TODO</p>
+<p>
+  Following: The “Following” link in the navigation bar should take the user to
+  a page where they see all posts made by users that the current user follows.
+</p>
+<p>
+  This page should behave just as the “All Posts” page does, just with a more
+  limited set of posts.
+</p>
+<p>This page should only be available to users who are signed in.</p>
+<div class="posts-div">
+  <div class="posts">
+    {% for post in posts %}
+    <div class="post">
+      <ul>
+        <li>Genius: {{post.author}}</li>
+        <li>Shitpost: {{post.text}}</li>
+        <li>Created at: {{post.created_at}}</li>
+        <li>Last update: {{post.updated_at}}</li>
+        <li>Likes: {{post.liked_by | length}}</li>
+      </ul>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %} {% block script %}
+<script src="{% static 'network/network.js' %}"></script>
+{% endblock %}
