@@ -3,7 +3,7 @@ from django.db import models
 
 
 class User(AbstractUser):
-    followed_by = models.ManyToManyField('self', symmetrical=False, related_name='is_following')
+    followed_by = models.ManyToManyField('self', symmetrical=False, related_name='is_following', blank=True)
     pass
 
 class Post(models.Model):

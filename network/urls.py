@@ -10,6 +10,7 @@ urlpatterns = [
     # commands
     path("post", views.post, name="post"),
     # API
+    # path('user/<str:profile>', views.profile, name='profile') USE SAME FOR FETCH
     
     # service
     path("login", views.login_view, name="login"),
