@@ -7,16 +7,19 @@ from django.urls import reverse
 from network.forms import *
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
-
+from django.views.generic import ListView
 from .models import *
 
+class PostsPages(ListView):
+    model = Post
+    paginate_by = 10
 
 def index(request):
     posts = Post.objects.all().order_by('-created_at')
     form = PostForm()
     return render(request, "network/index.html", {
         'form': form,
-        'posts': posts
+        'posts': posts,
     })
 
 
