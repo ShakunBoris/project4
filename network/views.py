@@ -6,6 +6,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from network.forms import *
 from django.views.decorators.csrf import csrf_exempt
+from django.core.paginator import Paginator
 
 from .models import *
 
