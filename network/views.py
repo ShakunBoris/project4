@@ -11,16 +11,25 @@ from django.views.generic import ListView
 from .models import *
 
 class PostsPages(ListView):
-    model = Post
+    model = Post #.objects.all().order_by('-created_at')
+    # queryset = Post.objects.all().order_by('-created_at')
     paginate_by = 10
+    template_name = 'network/index.html'
+    def get_context_data(self, **kwargs):
+            context = super().get_context_data(**kwargs)
+            context['form'] = PostForm()
+            context['posts'] = Post.objects.all().order_by('-created_at')
+            return context
+    def get_queryset(self):
+        return Post.objects.all().order_by('-created_at')
 
-def index(request):
-    posts = Post.objects.all().order_by('-created_at')
-    form = PostForm()
-    return render(request, "network/index.html", {
-        'form': form,
-        'posts': posts,
-    })
+# def index(request):
+#     posts = Post.objects.all().order_by('-created_at')
+#     form = PostForm()
+#     return render(request, "network/index.html", {
+#         'form': form,
+#         'posts': posts,
+#     })
 
 
 @csrf_exempt

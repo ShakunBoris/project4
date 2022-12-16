@@ -5,8 +5,9 @@ from . import views
 
 urlpatterns = [
     # pages
-    path("", views.index, name="index"),
-    path("post_view", views.PostsPages.as_view(), name='post_view'),
+    # path("", views.index, name="index"),
+    # path("post_list", views.PostsPages.as_view(), name='post_list'),
+    path("", views.PostsPages.as_view(), name='index'),
     path('user/<str:profile>', views.profile, name='profile'),
     path('following', views.following, name='following'),
     # commands
