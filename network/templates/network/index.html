@@ -7,14 +7,15 @@
       <input type="submit" />
     </form>
   </div>
+
   <div class="posts-div">
     <div class="posts">
-      {% for post in posts %}
+      {% for post in page_obj %}
       <div class="post">
         <ul>
           <li>Genius: {{post.author}}</li>
-          <li>Shitpost: {{post.text}} </li>
-          <li>Created at: {{post.created_at}} </li>
+          <li>Shitpost: {{post.text}}</li>
+          <li>Created at: {{post.created_at}}</li>
           <li>Last update: {{post.updated_at}}</li>
           <li>Likes: {{post.liked_by | length}}</li>
         </ul>
@@ -23,33 +24,23 @@
     </div>
   </div>
 </div>
-{% for post in page_obj %}
-    {# Each "contact" is a Contact model object. #}
-    <ul>
-        <li>Genius: {{post.author}}</li>
-        <li>Shitpost: {{post.text}} </li>
-        <li>Created at: {{post.created_at}} </li>
-        <li>Last update: {{post.updated_at}}</li>
-        <li>Likes: {{post.liked_by | length}}</li>
-      </ul>
-{% endfor %}
 
 <div class="pagination">
-    <span class="step-links">
-        {% if page_obj.has_previous %}
-            <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-        {% endif %}
+  <span class="step-links">
+    {% if page_obj.has_previous %}
+    <a href="?page=1">&laquo; first</a>
+    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+    {% endif %}
 
-        <span class="current">
-            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-        </span>
-
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-        {% endif %}
+    <span class="current">
+      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
     </span>
+
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}">next</a>
+    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+    {% endif %}
+  </span>
 </div>
 {% endblock %} {% block script %}
 <script src="{% static 'network/network.js' %}"></script>

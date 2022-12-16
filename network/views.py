@@ -20,8 +20,10 @@ class PostsPages(ListView):
             context['form'] = PostForm()
             context['posts'] = Post.objects.all().order_by('-created_at')
             return context
-    def get_queryset(self):
-        return Post.objects.all().order_by('-created_at')
+    # def get_queryset(self):
+    #     return Post.objects.all().order_by('-created_at')
+    def get_ordering(self):
+        return ['-created_at']
 
 # def index(request):
 #     posts = Post.objects.all().order_by('-created_at')
