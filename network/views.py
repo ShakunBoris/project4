@@ -24,7 +24,7 @@ class PostsPages(ListView):
     #     return Post.objects.all().order_by('-created_at')
     def get_ordering(self):
         return ['-created_at']
-
+    
 # def index(request):
 #     posts = Post.objects.all().order_by('-created_at')
 #     form = PostForm()
