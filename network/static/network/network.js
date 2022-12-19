@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   const follow = document.querySelector("#follow-button");
   if (follow) {follow.addEventListener("click", folUnfol)}
-//   console.log()
 });
 
 function folUnfol() {

@@ -1,25 +1,6 @@
 {% extends 'network/layout.html'%} {% load static %} 
 {%block body%}
-<article>
-  <h2>PROFILE TODO</h2>
-  <p>
-    Profile Page: Clicking on a username should load that user's profile page.
-    This page should:
-  </p>
-  <li>
-    Display the number of followers the user has, as well as the number of
-    people that the user follows.
-  </li>
-  <li>
-    Display all of the posts for that user, in reverse chronological order.
-  </li>
-  <li>
-    For any other user who is signed in, this page should also display a
-    “Follow” or “Unfollow” button that will let the current user toggle whether
-    or not they are following this user's posts. Note that this only applies to
-    any “other” user: a user should not be able to follow themselves.
-  </li>
-</article>
+
 <h2>Followed By: {{followed_by | length }}</h2>
 <h3>{% for follower in followed_by %} {{follower}} {%endfor%}</h3>
 <h2>Follows: {{is_following | length }}</h2>
@@ -29,7 +10,7 @@
   active user: {{ user.username }}. People following this page:
   {{followed_by}}
   USER VIEWED {{ user_viewed }}
-  <button id="follow-button" data-profile={{ user_viewed }}>   
+  <button id="follow-button" data-profile='{{ user_viewed }}'>   
     {% if user.username in followed_by.all %} Unfollow {% else %} Follow {% endif %}
   </button>
 </div>
@@ -48,23 +29,32 @@
   </div>
   {% endfor %}
 </div>
-<div class="pagination">
-  <span class="step-links">
+{% comment %} <div class="pagination"> {% endcomment %}
+  {% comment %} <span class="step-links"> {% endcomment %}
+  <nav aria-label="Page navigation example">
+      <ul class="pagination">
     {% if page_obj.has_previous %}
-    <a href="?page=1">&laquo; first</a>
-    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+    <li class="page-item"><a class="page-link" href="?page=1">&laquo; first</a> </li>
+    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">previous</a> </li>
     {% endif %}
 
-    <span class="current">
+   <li class="page-item disabled"> <a href="#" class="page-link">
       Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-    </span>
+    </a>
+    </li> 
+
+
 
     {% if page_obj.has_next %}
-    <a href="?page={{ page_obj.next_page_number }}">next</a>
-    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-    {% endif %}
-  </span>
-</div>
+    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">next</a> </li>
+    <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a></li>
+    {% endif %} 
+  </ul>
+</nav>
+  {% comment %} </span> {% endcomment %}
+{% comment %} </div> {% endcomment %}
+
+
 {%endblock%}
 {% block script %}
 <script src="{% static 'network/network.js' %}"></script>

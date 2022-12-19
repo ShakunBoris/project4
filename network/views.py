@@ -26,7 +26,7 @@ class PostsPages(ListView):
 @method_decorator(csrf_exempt, name='dispatch')
 class ProfilePages(ListView):
     model = Post 
-    paginate_by = 10
+    paginate_by = 5
     template_name = 'network/profile.html'
     def get_queryset(self):
         # print('!!!!!!!!!!!!!!!!!!!', self.kwargs['profile'])
