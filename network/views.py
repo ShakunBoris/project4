@@ -53,17 +53,6 @@ class ProfilePages(ListView):
                     username=self.kwargs['profile']).followed_by.remove(request.user)
         return HttpResponse(status=204)
         
-    # def get(self, request, *args, **kwargs):
-    #     user = User.objects.get(username=self.kwargs['profile'])
-    #     user_info = {
-    #         'user_viewed': self.kwargs['profile'],
-    #         'followed_by': user.followed_by.values_list('username', flat=True),
-    #         'is_following': user.is_following.all(),
-    #         'page_obj':  self.get_queryset()
-    #     }
-    #     return render(request, 'network/profile.html', {
-    #         'user_info': user_info
-    #     })
         
 # @csrf_exempt
 # def profile(request, profile):
@@ -89,7 +78,8 @@ class ProfilePages(ListView):
 #                     username=profile).followed_by.remove(request.user)
 #         return HttpResponse(status=204)
 
-
+class Following(ListView):
+    pass
 def following(request):
     follows = request.user.is_following.all()
     posts = Post.objects.filter(author__in=follows).order_by('-created_at')
