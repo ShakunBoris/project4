@@ -8,7 +8,7 @@ urlpatterns = [
     # path("", views.index, name="index"),
     # path("post_list", views.PostsPages.as_view(), name='post_list'),
     path("", views.PostsPages.as_view(), name='index'),
-    path('user/<str:profile>', views.profile, name='profile'),
+    path('user/<str:profile>', views.ProfilePages.as_view(), name='profile'),
     path('following', views.following, name='following'),
     # commands
     path("post", views.post, name="post"),

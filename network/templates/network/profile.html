@@ -20,21 +20,23 @@
     any “other” user: a user should not be able to follow themselves.
   </li>
 </article>
-<h2>Followed By: {{user_info.followed_by | length }}</h2>
-<h3>{% for follower in user_info.followed_by %} {{follower}} {%endfor%}</h3>
-<h2>Follows: {{user_info.is_following | length }}</h2>
-<h3>{% for follows in user_info.is_following %} {{follows}} {%endfor%}</h3>
-{% if user.username != user_info.user_viewed %}
+<h2>Followed By: {{followed_by | length }}</h2>
+<h3>{% for follower in followed_by %} {{follower}} {%endfor%}</h3>
+<h2>Follows: {{is_following | length }}</h2>
+<h3>{% for follows in is_following %} {{follows}} {%endfor%}</h3>
+{% if user.username != user_viewed %}
 <div id="follow-button-div">
   active user: {{ user.username }}. People following this page:
-  {{user_info.followed_by}}
-  <button id="follow-button" data-profile='{{ user_info.user_viewed }}'>
-    {% if user.username in user_info.followed_by.all %} Unfollow {% else %} Follow {% endif %}
+  {{followed_by}}
+  USER VIEWED {{ user_viewed }}
+  <button id="follow-button" data-profile={{ user_viewed }}>   
+    {% if user.username in followed_by.all %} Unfollow {% else %} Follow {% endif %}
   </button>
 </div>
 {%endif%}
+---------------------------------------
 <div class="posts">
-  {% for post in user_info.posts %}
+  {% for post in page_obj %}
   <div class="post">
     <ul>
       <li>Genius: {{post.author}}</li>
@@ -45,6 +47,23 @@
     </ul>
   </div>
   {% endfor %}
+</div>
+<div class="pagination">
+  <span class="step-links">
+    {% if page_obj.has_previous %}
+    <a href="?page=1">&laquo; first</a>
+    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+    {% endif %}
+
+    <span class="current">
+      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+    </span>
+
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}">next</a>
+    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+    {% endif %}
+  </span>
 </div>
 {%endblock%}
 {% block script %}

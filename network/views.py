@@ -9,10 +9,10 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
 from django.views.generic import ListView
 from .models import *
+from django.utils.decorators import method_decorator
 
 class PostsPages(ListView):
-    model = Post #.objects.all().order_by('-created_at')
-    # queryset = Post.objects.all().order_by('-created_at')
+    model = Post 
     paginate_by = 10
     template_name = 'network/index.html'
     def get_context_data(self, **kwargs):
@@ -20,49 +20,74 @@ class PostsPages(ListView):
             context['form'] = PostForm()
             context['posts'] = Post.objects.all().order_by('-created_at')
             return context
-    # def get_queryset(self):
-    #     return Post.objects.all().order_by('-created_at')
     def get_ordering(self):
         return ['-created_at']
-    
-# def index(request):
-#     posts = Post.objects.all().order_by('-created_at')
-#     form = PostForm()
-#     return render(request, "network/index.html", {
-#         'form': form,
-#         'posts': posts,
-#     })
 
-
-@csrf_exempt
-def profile(request, profile):
-    if request.method == 'GET':
-        user = User.objects.get(username=profile)
-        # print('user.followed_by.all()', user.followed_by.all())
-        # print('user.is_following.all()', user.is_following.all())
-        # print('user posts:', Post.objects.filter(author=user).order_by('-created_at'))
-        user_info = {
-            'user_viewed': profile,
-            'followed_by': user.followed_by.values_list('username', flat=True),
-            'is_following': user.is_following.all(),
-            'posts':  Post.objects.filter(author=user).order_by('-created_at')
-        }
-        return render(request, 'network/profile.html', {
-            'user_info': user_info
-        })
-    if request.method == 'PUT':
-        print('PUT METHOD VIEWS.PROFILE')
+@method_decorator(csrf_exempt, name='dispatch')
+class ProfilePages(ListView):
+    model = Post 
+    paginate_by = 10
+    template_name = 'network/profile.html'
+    def get_queryset(self):
+        # print('!!!!!!!!!!!!!!!!!!!', self.kwargs['profile'])
+        user = User.objects.get(username=self.kwargs['profile'])
+        result = Post.objects.filter(author=user)
+        return result
+    def get_ordering(self):
+        return ['-created_at']
+    def get_context_data(self, **kwargs):
+        user = User.objects.get(username=self.kwargs['profile'])
+        context = super().get_context_data(**kwargs)
+        context['user_viewed'] =  user.username 
+        context['followed_by'] = user.followed_by.values_list('username', flat=True)
+        context['is_following'] = user.is_following.all()
+        return context      
+    def put(self, request, *args, **kwargs):
         data = json.loads(request.body)
         if data.get('folUnfol') is not None:
-            if request.user not in User.objects.get(username=profile).followed_by.all():
+            if request.user not in User.objects.get(username=self.kwargs['profile']).followed_by.all():
                 User.objects.get(
-                    username=profile).followed_by.add(request.user)
-                print('ADDING!!!')
+                    username=self.kwargs['profile']).followed_by.add(request.user)
             else:
                 User.objects.get(
-                    username=profile).followed_by.remove(request.user)
-                print('REMOVING!!!')
+                    username=self.kwargs['profile']).followed_by.remove(request.user)
         return HttpResponse(status=204)
+        
+    # def get(self, request, *args, **kwargs):
+    #     user = User.objects.get(username=self.kwargs['profile'])
+    #     user_info = {
+    #         'user_viewed': self.kwargs['profile'],
+    #         'followed_by': user.followed_by.values_list('username', flat=True),
+    #         'is_following': user.is_following.all(),
+    #         'page_obj':  self.get_queryset()
+    #     }
+    #     return render(request, 'network/profile.html', {
+    #         'user_info': user_info
+    #     })
+        
+# @csrf_exempt
+# def profile(request, profile):
+#     if request.method == 'GET':
+#         user = User.objects.get(username=profile)
+#         user_info = {
+#             'user_viewed': profile,
+#             'followed_by': user.followed_by.values_list('username', flat=True),
+#             'is_following': user.is_following.all(),
+#             'posts':  Post.objects.filter(author=user).order_by('-created_at')
+#         }
+#         return render(request, 'network/profile.html', {
+#             'user_info': user_info
+#         })
+#     if request.method == 'PUT':
+#         data = json.loads(request.body)
+#         if data.get('folUnfol') is not None:
+#             if request.user not in User.objects.get(username=profile).followed_by.all():
+#                 User.objects.get(
+#                     username=profile).followed_by.add(request.user)
+#             else:
+#                 User.objects.get(
+#                     username=profile).followed_by.remove(request.user)
+#         return HttpResponse(status=204)
 
 
 def following(request):
