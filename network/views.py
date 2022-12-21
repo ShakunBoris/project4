@@ -78,14 +78,22 @@ class ProfilePages(ListView):
 #                     username=profile).followed_by.remove(request.user)
 #         return HttpResponse(status=204)
 
+
 class Following(ListView):
-    pass
-def following(request):
-    follows = request.user.is_following.all()
-    posts = Post.objects.filter(author__in=follows).order_by('-created_at')
-    return render(request, 'network/following.html', {
-        'posts': posts,
-    })
+    model = Post 
+    paginate_by = 10
+    template_name = 'network/following.html'
+    def get_queryset(self):
+        follows = self.request.user.is_following.all()
+        return Post.objects.filter(author__in=follows)
+    def get_ordering(self):
+        return ['-created_at']
+# def following(request):
+#     follows = request.user.is_following.all()
+#     posts = Post.objects.filter(author__in=follows).order_by('-created_at')
+#     return render(request, 'network/following.html', {
+#         'posts': posts,
+#     })
 
 
 def post(request):
