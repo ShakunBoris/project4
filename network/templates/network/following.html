@@ -8,8 +8,16 @@
         <li>Shitpost: {{post.text}}</li>
         <li>Created at: {{post.created_at}}</li>
         <li>Last update: {{post.updated_at}}</li>
-        <li>Likes: {{post.liked_by | length}}</li>
-      </ul>
+        <li class='likes'>Likes: {{post.liked_by.all | length}}</li>
+        </ul>
+        {% comment %} {{post.liked_by.all}} {% endcomment %}
+        <button class='like-button' id='like{{post.pk}}' data-postpk={{post.pk}}> 
+          {% if user in post.liked_by.all %}
+          Dislike
+          {% else %}
+          Like
+          {% endif%}
+        </button>
     </div>
     {% endfor %}
   </div>
