@@ -1,5 +1,6 @@
 import json
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
@@ -11,6 +12,7 @@ from django.views.generic import ListView
 from .models import *
 from django.utils.decorators import method_decorator
 
+@method_decorator(login_required, name='dispatch')
 class PostsPages(ListView):
     model = Post 
     paginate_by = 10
@@ -26,7 +28,7 @@ class PostsPages(ListView):
 @method_decorator(csrf_exempt, name='dispatch')
 class ProfilePages(ListView):
     model = Post 
-    paginate_by = 5
+    paginate_by = 10
     template_name = 'network/profile.html'
     def get_queryset(self):
         # print('!!!!!!!!!!!!!!!!!!!', self.kwargs['profile'])
@@ -78,7 +80,7 @@ class ProfilePages(ListView):
 #                     username=profile).followed_by.remove(request.user)
 #         return HttpResponse(status=204)
 
-
+@method_decorator(login_required, name='dispatch')
 class Following(ListView):
     model = Post 
     paginate_by = 10
@@ -95,7 +97,7 @@ class Following(ListView):
 #         'posts': posts,
 #     })
 
-
+@login_required
 def post(request):
     ''' METHOD DOESN'T WORK IDC
     form = PostForm(request.POST, initial={'author': request.user})
