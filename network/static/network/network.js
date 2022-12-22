@@ -15,7 +15,7 @@ function edit(btn) {
             console.log('btn', btn.dataset.postpk);
             let postpk = btn.dataset.postpk;
             let post = document.querySelector(`#post${postpk}`);
-            post.style['background-color'] = 'red';
+            post.style['background-color'] = 'grey';
             post.querySelector('.post-text').style.color ='white';
             fetch(`/edit/${postpk}`, {
                 method: "GET"
@@ -23,11 +23,36 @@ function edit(btn) {
               .then(response => response.json())
               .then(result => {
                 console.log(result);
-                let textArea = document.createElement('textarea');
-                textArea.innerHTML = result.text;
-                post.append(textArea);
+                // let textArea = document.createElement('textarea');
+                // textArea.innerHTML = result.text;
+                // post.querySelector('.post-text').replaceWith(textArea);
+                // textArea.outerHTML = '<li>'+ textArea.outerHTML + '</li>';
+                post.querySelector('.post-text').innerHTML = '<textarea>' + post.querySelector('.post-text').innerHTML.slice(10,) + '</textarea>'
+                let save = document.createElement('button');
+                save.innerHTML = 'save';
+                save.dataset.postpk = postpk;
+                save.onclick = saveFunc;
+                post.querySelector('ul').append(save);
                 });
         }
+}
+
+
+function saveFunc() {
+    postpk = this.dataset.postpk;
+    console.log(postpk);
+    newText = document.querySelector(`#post${postpk} textArea`).value;
+    console.log(newText);
+    fetch(`/edit/${postpk}`, {
+        method: 'PUT',
+        body: JSON.stringify({
+            postpk: postpk,
+            text: newText
+        })
+    })
+    .then(response => response.json())
+    .then(result => {
+        console.log(result.status);})
 }
 
 function folUnfol() {

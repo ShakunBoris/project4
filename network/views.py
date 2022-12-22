@@ -173,4 +173,11 @@ def edit(request, postpk):
     if request.method=='GET':
         return JsonResponse({'text': f'{Post.objects.get(pk=postpk).text}'})
     if request.method =="PUT":
-        pass
+        postpk = json.loads(request.body).get('postpk')
+        text  = json.loads(request.body).get('text')
+        print(json.loads(request.body))
+        if request.user == Post.objects.get(pk=postpk).author:
+            return JsonResponse({'status': 'works'})
+        else:
+            return JsonResponse({'status': f'wrong user {request.user} != \
+                                 {Post.objects.get(pk=postpk).author}'})
