@@ -11,10 +11,14 @@
   <div class="posts-div">
     <div class="posts">
       {% for post in page_obj %}
-      <div class="post">
+      <div class="post" id='post{{post.pk}}'>
         <ul>
           <li>Genius: {{post.author}}</li>
-          <li>Shitpost: {{post.text}}</li>
+          {% if user == post.author %}
+          <button class='edit-button' data-postpk={{post.pk}}> edit </button>
+          Post PK = {{post.pk}}
+          {% endif %}
+          <li class='post-text'>Shitpost: {{post.text}}</li>
           <li>Created at: {{post.created_at}}</li>
           <li>Last update: {{post.updated_at}}</li>
           <li>Likes: {{post.liked_by | length}}</li>

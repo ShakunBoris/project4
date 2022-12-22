@@ -16,6 +16,7 @@ urlpatterns = [
     # API
     # path('user/<str:profile>', views.profile, name='profile')
     # USE SAME AS PROFILE BUT 'PUT FOR FETCH
+    path('edit/<int:postpk>', views.edit, name='edit'),
     
     # service
     path("login", views.login_view, name="login"),
