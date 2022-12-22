@@ -4,7 +4,7 @@
     {% for post in page_obj %}
     <div class="post">
       <ul>
-        <li>Genius: {{post.author}}</li>
+        <li>Genius: <a href="{% url 'profile' post.author %}">{{post.author}} <a></li>
         <li>Shitpost: {{post.text}}</li>
         <li>Created at: {{post.created_at}}</li>
         <li>Last update: {{post.updated_at}}</li>

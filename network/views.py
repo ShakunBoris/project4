@@ -34,16 +34,17 @@ class ProfilePages(ListView):
         # print('!!!!!!!!!!!!!!!!!!!', self.kwargs['profile'])
         user = User.objects.get(username=self.kwargs['profile'])
         result = Post.objects.filter(author=user)
-        return result
-    def get_ordering(self):
-        return ['-created_at']
+        return result.order_by('-created_at')
+
     def get_context_data(self, **kwargs):
         user = User.objects.get(username=self.kwargs['profile'])
         context = super().get_context_data(**kwargs)
         context['user_viewed'] =  user.username 
         context['followed_by'] = user.followed_by.values_list('username', flat=True)
         context['is_following'] = user.is_following.all()
-        return context      
+        return context    
+    # def get_ordering(self):
+    #     return ['-created_at']  
     def put(self, request, *args, **kwargs):
         data = json.loads(request.body)
         if data.get('folUnfol') is not None:
@@ -87,9 +88,9 @@ class Following(ListView):
     template_name = 'network/following.html'
     def get_queryset(self):
         follows = self.request.user.is_following.all()
-        return Post.objects.filter(author__in=follows)
-    def get_ordering(self):
-        return ['-created_at']
+        return Post.objects.filter(author__in=follows).order_by('-created_at')
+    # def get_ordering(self):
+    #     return ['-created_at']
 # def following(request):
 #     follows = request.user.is_following.all()
 #     posts = Post.objects.filter(author__in=follows).order_by('-created_at')
@@ -177,8 +178,9 @@ def edit(request, postpk):
         text  = json.loads(request.body).get('text')
         print(json.loads(request.body))
         if request.user != Post.objects.get(pk=postpk).author:
+            print('WRONG USER')
             return JsonResponse({'status': f'wrong user {request.user} != \
-                    {Post.objects.get(pk=postpk).author}'})
+                    {Post.objects.get(pk=postpk).author}'}, status=404)
         else:
             post = Post.objects.get(pk=postpk)
             post.text = text
@@ -186,8 +188,6 @@ def edit(request, postpk):
                 post.full_clean()
                 post.save()
             except ValidationError as e:
-                # Do something based on the errors contained in e.message_dict.
-                # Display them to a user, or handle them programmatically.
                 print(e)
                 return JsonResponse({'status': f'{e}'})
             return JsonResponse({'status': 'works'})

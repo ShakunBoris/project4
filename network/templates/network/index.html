@@ -13,7 +13,7 @@
       {% for post in page_obj %}
       <div class="post" id='post{{post.pk}}'>
         <ul>
-          <li>Genius: {{post.author}}</li>
+          <li>Genius: <a href="{% url 'profile' post.author %}">{{post.author}} <a></li>
           {% if user == post.author %}
           <button class='edit-button' data-postpk={{post.pk}}> edit </button>
           Post PK = {{post.pk}}
