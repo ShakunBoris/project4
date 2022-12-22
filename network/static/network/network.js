@@ -16,24 +16,32 @@ function edit(btn) {
             let postpk = btn.dataset.postpk;
             let post = document.querySelector(`#post${postpk}`);
             post.style['background-color'] = 'grey';
-            post.querySelector('.post-text').style.color ='white';
+            if (post.querySelector('.post-text')) {
+                post.querySelector('.post-text').style.color ='white'}
             fetch(`/edit/${postpk}`, {
                 method: "GET"
               })    
               .then(response => response.json())
               .then(result => {
                 console.log(result);
-                // let textArea = document.createElement('textarea');
-                // textArea.innerHTML = result.text;
-                // post.querySelector('.post-text').replaceWith(textArea);
-                // textArea.outerHTML = '<li>'+ textArea.outerHTML + '</li>';
-                post.querySelector('.post-text').innerHTML = '<textarea>' + post.querySelector('.post-text').innerHTML.slice(10,) + '</textarea>'
+                let textArea = document.createElement('textarea');
+                textArea.maxLength = 140;
+                textArea.rows = 3;
+                textArea.cols = 50;
+                textArea.innerHTML = result.text;
+                textArea.className = 'post-text';
+                post.querySelector('.post-text').replaceWith(textArea);
+                textArea.outerHTML = '<li>'+ textArea.outerHTML + '</li>';
+                // post.querySelector('.post-text').innerHTML = '<textarea maxlength="140" rows="3" cols="50">' + post.querySelector('.post-text').innerHTML.slice(10,) + '</textarea>'
                 let save = document.createElement('button');
                 save.innerHTML = 'save';
                 save.dataset.postpk = postpk;
                 save.onclick = saveFunc;
                 post.querySelector('ul').append(save);
+                
                 });
+        // btn.disabled='True';
+        document.querySelectorAll('.edit-button').forEach(btn =>{btn.disabled=true})
         }
 }
 
@@ -52,7 +60,13 @@ function saveFunc() {
     })
     .then(response => response.json())
     .then(result => {
-        console.log(result.status);})
+        console.log(result.status);
+        // console.log('++++++++++++++++++++++.edit-button++++++++++++');
+        document.querySelectorAll('.edit-button').forEach(btn =>{btn.disabled = false});
+        document.querySelector(`#post${postpk}`).style['background-color']= '#98D16E';
+        this.remove()
+    })
+    
 }
 
 function folUnfol() {

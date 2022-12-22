@@ -181,10 +181,14 @@ def edit(request, postpk):
                     {Post.objects.get(pk=postpk).author}'})
         else:
             post = Post.objects.get(pk=postpk)
+            post.text = text
             try:
-                post.text = text
+                post.full_clean()
                 post.save()
-            except:
-                print('error')
+            except ValidationError as e:
+                # Do something based on the errors contained in e.message_dict.
+                # Display them to a user, or handle them programmatically.
+                print(e)
+                return JsonResponse({'status': f'{e}'})
             return JsonResponse({'status': 'works'})
 

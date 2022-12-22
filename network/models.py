@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.core.exceptions import ValidationError
+from django.core.exceptions import  ValidationError
 
 
 class User(AbstractUser):
@@ -14,3 +14,5 @@ class Post(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     liked_by = models.ManyToManyField(User, blank=True, related_name='liked_posts')
     # def clean(self):
+    #     if self.text == '':
+    #         raise ValidationError('Must provide message (Boris)')
