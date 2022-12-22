@@ -102,8 +102,9 @@ function likeDislike(btn) {
         })
         .then(response => response.json())
         .then(result => {
-            console.log(result)
+            console.log(result.likes);
             btn.innerHTML='worked';
+            document.querySelector(`#post${btn.dataset.postpk} .likes`).innerHTML = 'Likes: ' + result.likes;            
         })
     })
 }

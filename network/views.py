@@ -198,9 +198,9 @@ def like(request):
         postpk = int(json.loads(request.body).get('postpk'))
         post = Post.objects.get(pk=postpk)
         user = request.user
-        print(postpk, user)
+        print(postpk, user, 'likes total:', len(post.liked_by.all()))
         if user not in post.liked_by.all():
             post.liked_by.add(user)
         else:
             post.liked_by.remove(user)
-        return JsonResponse({'status': 'works'})
+        return JsonResponse({'status': 'works', 'likes': len(post.liked_by.all())})
