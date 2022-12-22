@@ -192,3 +192,15 @@ def edit(request, postpk):
                 return JsonResponse({'status': f'{e}'})
             return JsonResponse({'status': 'works'})
 
+@csrf_exempt
+def like(request):
+    if request.method == "PUT":
+        postpk = int(json.loads(request.body).get('postpk'))
+        post = Post.objects.get(pk=postpk)
+        user = request.user
+        print(postpk, user)
+        if user not in post.liked_by.all():
+            post.liked_by.add(user)
+        else:
+            post.liked_by.remove(user)
+        return JsonResponse({'status': 'works'})

@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", function () {
   // for all pages where edit
   const editButtons = document.querySelectorAll(".edit-button");
   if (editButtons) {editButtons.forEach(edit)};
+  const likeButtons = document.querySelectorAll(".like-button");
+  if (likeButtons) {likeButtons.forEach(likeDislike)};
 });
 
 
@@ -86,5 +88,22 @@ function folUnfol() {
         console.log('ADDING')
         document.querySelector('#follow-button').innerHTML = 'Unfollow'
     }
+    })
+}
+
+function likeDislike(btn) {
+    btn.addEventListener('click', function ()  {
+        console.log(btn);
+        fetch('like', {
+            method: 'PUT',
+            body: JSON.stringify({
+                postpk: btn.dataset.postpk,
+            })
+        })
+        .then(response => response.json())
+        .then(result => {
+            console.log(result)
+            btn.innerHTML='worked';
+        })
     })
 }
