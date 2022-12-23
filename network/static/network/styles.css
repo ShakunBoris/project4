@@ -55,3 +55,19 @@ body {
 .post li {
     word-break: break-all;
 }
+
+.subheader {
+    overflow: hidden;
+}
+.subheader-follow {
+    float:left;
+    width: 40%;
+}
+.name-sans {
+    float: right;
+    font-family: cursive;
+    width: 60%;
+    /* text-align: center; */
+    padding: auto auto;
+}
+

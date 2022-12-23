@@ -1,18 +1,24 @@
 {% extends 'network/layout.html'%} {% load static %} 
 {%block body%}
-
-<h2>Followed By: {{followed_by | length }}</h2>
-<h3>{% for follower in followed_by %} {{follower}} {%endfor%}</h3>
-<h2>Follows: {{is_following | length }}</h2>
-<h3>{% for follows in is_following %} {{follows}} {%endfor%}</h3>
-{% if user.username != user_viewed %}
-<div id="follow-button-div">
-  active user: {{ user.username }}. People following this page:
-  {{followed_by}}
-  USER VIEWED {{ user_viewed }}
-  <button id="follow-button" data-profile='{{ user_viewed }}'>   
-    {% if user.username in followed_by.all %} Unfollow {% else %} Follow {% endif %}
-  </button>
+<div class='subheader' >
+<div class='subheader-follow'>
+  <h2>Followed By: {{followed_by | length }}</h2>
+  <h3>{% for follower in followed_by %} {{follower}} {%endfor%}</h3>
+  <h2>Follows: {{is_following | length }}</h2>
+  <h3>{% for follows in is_following %} {{follows}} {%endfor%}</h3>
+  {% if user.username != user_viewed %}
+  <div id="follow-button-div">
+    active user: {{ user.username }}. People following this page:
+    {{followed_by}}
+    USER VIEWED {{ user_viewed }}
+    <button id="follow-button" data-profile='{{ user_viewed }}'>   
+      {% if user.username in followed_by.all %} Unfollow {% else %} Follow {% endif %}
+    </button>
+  </div>
+</div>
+  <div class='name-sans'>
+    <h1>{{user_viewed}}</h1>
+  </div>
 </div>
 {%endif%}
 ---------------------------------------
