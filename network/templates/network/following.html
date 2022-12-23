@@ -2,7 +2,7 @@
 <div class="posts-div">
   <div class="posts">
     {% for post in page_obj %}
-    <div class="post">
+    <div class="post" id='post{{post.pk}}'>
       <ul>
         <li>Genius: <a href="{% url 'profile' post.author %}">{{post.author}} <a></li>
         <li>Shitpost: {{post.text}}</li>

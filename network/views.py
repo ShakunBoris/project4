@@ -195,6 +195,7 @@ def edit(request, postpk):
 @csrf_exempt
 def like(request):
     if request.method == "PUT":
+        print("!!!!!!!!!!!!!")
         postpk = int(json.loads(request.body).get('postpk'))
         post = Post.objects.get(pk=postpk)
         user = request.user

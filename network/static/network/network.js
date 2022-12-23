@@ -94,7 +94,7 @@ function folUnfol() {
 function likeDislike(btn) {
     btn.addEventListener('click', function ()  {
         console.log(btn);
-        fetch('like', {
+        fetch('/like', {
             method: 'PUT',
             body: JSON.stringify({
                 postpk: btn.dataset.postpk,
