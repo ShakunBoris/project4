@@ -15,13 +15,14 @@
       {% if user.username in followed_by.all %} Unfollow {% else %} Follow {% endif %}
     </button>
   </div>
-</div>
-  <div class='name-sans'>
-    <h1>{{user_viewed}}</h1>
-  </div>
-</div>
 {%endif%}
+</div>
+<div class='name-sans'>
+  <h1>{{user_viewed}}</h1>
+</div>
+</div>
 ---------------------------------------
+<div class="posts-div">
 <div class="posts">
   {% for post in page_obj %}
   <div class="post" id='post{{post.pk}}'>
@@ -46,6 +47,7 @@
         </button>
   </div>
   {% endfor %}
+</div>
 </div>
 {% comment %} <div class="pagination"> {% endcomment %}
   {% comment %} <span class="step-links"> {% endcomment %}
