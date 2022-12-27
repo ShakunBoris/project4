@@ -32,7 +32,7 @@
         <button class='edit-button' data-postpk={{post.pk}}> edit </button>
           Post PK = {{post.pk}}
           {% endif %}
-      <li class='post-text'>Shitpost: {{post.text}}</li>
+      <li class='post-text'>Post: {{post.text}}</li>
       <li>Created at: {{post.created_at}}</li>
       <li>Last update: {{post.updated_at}}</li>
       <li class='likes'>Likes: {{post.liked_by.all | length}}</li>
