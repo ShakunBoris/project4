@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.urls import reverse
 from network.forms import *
 from django.views.decorators.csrf import csrf_exempt
@@ -12,7 +12,7 @@ from django.views.generic import ListView
 from .models import *
 from django.utils.decorators import method_decorator
 
-@method_decorator(login_required, name='dispatch')
+# @method_decorator(login_required, name='dispatch')
 class PostsPages(ListView):
     model = Post 
     paginate_by = 10
@@ -25,6 +25,7 @@ class PostsPages(ListView):
     def get_ordering(self):
         return ['-created_at']
 
+@method_decorator(login_required, name='dispatch')
 @method_decorator(csrf_exempt, name='dispatch')
 class ProfilePages(ListView):
     model = Post 
@@ -117,7 +118,6 @@ def post(request):
     '''
     return HttpResponseRedirect(reverse("index"))
 
-
 def login_view(request):
     if request.method == "POST":
 
@@ -169,6 +169,7 @@ def register(request):
     else:
         return render(request, "network/register.html")
 
+@login_required
 @csrf_exempt
 def edit(request, postpk):
     if request.method=='GET':
@@ -192,8 +193,10 @@ def edit(request, postpk):
                 return JsonResponse({'status': f'{e}'})
             return JsonResponse({'status': 'works'})
 
+
+@login_required
 @csrf_exempt
-def like(request):
+def like(request): 
     if request.method == "PUT":
         print("!!!!!!!!!!!!!")
         postpk = int(json.loads(request.body).get('postpk'))
